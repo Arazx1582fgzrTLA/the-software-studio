@@ -1,4 +1,4 @@
-import Link from "next/link";
+export const APPLY_URL = "https://tally.so/r/LZBDbJ";
 
 type Variant = "solid" | "outline" | "inverted";
 
@@ -22,7 +22,12 @@ export function ApplyButton({
   className?: string;
 }) {
   return (
-    <Link href="/apply" className={`${base} ${variants[variant]} ${className}`}>
+    <a
+      href={APPLY_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${base} ${variants[variant]} ${className}`}
+    >
       {children}
       <span
         aria-hidden
@@ -30,6 +35,6 @@ export function ApplyButton({
       >
         &rarr;
       </span>
-    </Link>
+    </a>
   );
 }

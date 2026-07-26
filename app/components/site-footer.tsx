@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { ApplyButton } from "./apply-button";
+import { APPLY_URL, ApplyButton } from "./apply-button";
 
-const columns = [
+const columns: {
+  heading: string;
+  links: { href: string; label: string; external?: boolean }[];
+}[] = [
   {
     heading: "Studio",
     links: [
@@ -22,9 +25,7 @@ const columns = [
   {
     heading: "Elsewhere",
     links: [
-      { href: "/apply", label: "Apply" },
-      { href: "/apply", label: "Contact" },
-      { href: "/apply", label: "Newsletter" },
+      { href: APPLY_URL, label: "Apply", external: true }
     ],
   },
 ];
@@ -63,16 +64,30 @@ export function SiteFooter() {
                 {column.heading}
               </h3>
               <ul className="mt-5 flex flex-col gap-3">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="font-sans text-sm text-ink/80 transition-colors duration-300 hover:text-ink"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {column.links.map((link) => {
+                  const className =
+                    "font-sans text-sm text-ink/80 transition-colors duration-300 hover:text-ink";
+
+                  return (
+                    <li key={link.label}>
+                      {link.external ? (
+                        <a
+                          href={link.href}
+                          className={className}
+                          {...(link.href.startsWith("http")
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link href={link.href} className={className}>
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
